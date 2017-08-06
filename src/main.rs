@@ -35,5 +35,6 @@ fn main() {
     let json = serde_json::to_string(&requirements).unwrap();
     let mut hasher = sha1::Sha1::new();
     hasher.update(json.as_bytes());
-    println!("{}", hasher.digest())
+    let digest = format!("{}", hasher.digest());
+    println!("{}", digest)
 }
