@@ -2,6 +2,7 @@
 extern crate serde_derive;
 
 extern crate serde;
+extern crate sha1;
 extern crate serde_json;
 
 //TODO not hardcoded path
@@ -31,4 +32,8 @@ impl Requirements {
 fn main() {
     let mut requirements = Requirements::new();
     requirements.add(Requirement::Binary("ruby"));
+    let json = serde_json::to_string(&requirements).unwrap();
+    let mut hasher = sha1::Sha1::new();
+    hasher.update(json.as_bytes());
+    println!("{}", hasher.digest())
 }

@@ -7,3 +7,4 @@ authors = ["Kirill Radzikhovskyy <kirillrdy@gmail.com>"]
 serde="*"
 serde_json="*"
 serde_derive="*"
+sha1="*"
