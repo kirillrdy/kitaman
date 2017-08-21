@@ -5,36 +5,62 @@ extern crate serde;
 extern crate sha1;
 extern crate serde_json;
 
-//TODO not hardcoded path
-const KITAMAN_HOME: &str = "/home/kirillvr/.kitaman/";
+mod environment;
+mod content;
+mod source;
+mod software;
+mod config;
 
-#[derive(Serialize)]
-enum Requirement {
-    Binary(&'static str),
+struct Config {
 }
 
-#[derive(Serialize)]
-struct Requirements {
-    requirements: Vec<Requirement>,
+
+
+
+
+struct Builder {
+    source: software::Source
 }
 
-impl Requirements {
-    pub fn new() -> Requirements {
-        Requirements {
-            requirements: Vec::new(),
-        }
+struct StoreManager {
+}
+
+
+impl Builder {
+    fn install_source(source: software::Source) {
+        let builder = Builder{source: source};
+        builder.install()
     }
-    pub fn add(&mut self, requirement: Requirement) {
-        self.requirements.push(requirement)
+
+    fn install(&self) {
+        //TODO all the hard work
+
+        //TODO finish
+        //content::register()
+    }
+}
+
+
+
+impl StoreManager {
+    fn install(source: Source) {
+        //TODO if not already installed
+        Builder::install(source)
     }
 }
 
 fn main() {
-    let mut requirements = Requirements::new();
-    requirements.add(Requirement::Binary("ruby"));
+    let mut requirements = environment::Requirements::new();
+    requirements.add(environment::Requirement::Binary("ruby"));
     let json = serde_json::to_string(&requirements).unwrap();
     let mut hasher = sha1::Sha1::new();
     hasher.update(json.as_bytes());
     let digest = format!("{}", hasher.digest());
-    println!("{}", digest)
+    println!("{}", digest);
+
+    let source = Source{name: String::from("ruby-2.3.4")};
+    StoreManager::install(source)
+
+
+
 }
