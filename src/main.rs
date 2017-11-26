@@ -8,12 +8,22 @@ struct BuildJob {
 
 impl BuildJob {
     fn build(&self) {
+        //TODO consider own command so that std{in,our,err} can be controlled
         process::Command::new("./configure")
             .arg(String::from("--prefix=") + self.prefix().as_str())
             .status().
             expect("Configure failed");
 
         process::Command::new("make").status().expect("make failed");
+    }
+
+    fn install(&self) {
+        //TODO maybe detect if its necessary to build
+        self.build();
+
+        process::Command::new("make")
+            .arg("install")
+            .status().expect("make install failed");
     }
 
     fn name(&self) -> String {
@@ -41,6 +51,9 @@ fn main() {
     let job = BuildJob{source_directory: env::current_dir().expect("Failed to get current directory")};
     if command == "build" {
         job.build();
+    }
+    if command == "install" {
+        job.install();
     }
     if command == "prefix" {
         job.prefix();
