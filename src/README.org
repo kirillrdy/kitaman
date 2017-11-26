@@ -1,0 +1,6 @@
+* TODO Kitaman
+
+** Support list of requremens ( kitaman.toml )
+** implement basic exec
+** implement exec using symlinks
+** somehow specify dependencies of dependencies( eg how to build ruby )
